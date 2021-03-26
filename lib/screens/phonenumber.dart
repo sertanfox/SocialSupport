@@ -1,11 +1,13 @@
+import 'package:examples/screens/service_phone_number.dart';
 import 'package:examples/screens/verify_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../functions.dart';
 
 class PhoneNumber extends StatefulWidget {
   static String routeName = "/";
+
   PhoneNumber({Key key}) : super(key: key);
 
   @override
@@ -134,21 +136,31 @@ class _PhoneNumberState extends State<PhoneNumber> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            onPressed: () {
-                              int errorCode = isPhoneNumberValid(phoneNumber);
-                              if (errorCode == 101) {
-                                print("Sms doğrulamaya gidiyoruz...");
-                                Navigator.of(context).pushNamed(
-                                    Verify_Screen.routeName,
-                                    arguments: phoneNumber);
+                            onPressed: () async {
+                              await ServicePhone()
+                                  .verifyPhone('+90$phoneNumber')
+                                  .then((value) => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Verify_Screen(
+                                                phoneNum: phoneNumber,
+                                              ))));
 
-                                /*
-                                MaterialPageRoute(
-                                    builder: (context) => Verify_Screen(
-                                        phoneNumber: phoneNumber));
-                                        */
-                              } else
-                                _wrongNumber(errorCode);
+                              // MaterialPageRoute(
+                              //     builder: (context) =>
+                              //         Verify_Screen(phoneNum: phoneNumber));
+
+                              // Navigator.of(context).pushNamed(
+                              //     Verify_Screen.routeName,
+                              //     arguments: phoneNumber));
+
+                              //TODO: Verify if this part works
+                              // int errorCode = isPhoneNumberValid(phoneNumber);
+                              // if (errorCode == 101) {
+                              //   print("Sms doğrulamaya gidiyoruz...");
+
+                              // } else
+                              // _wrongNumber(errorCode);
                             },
                             child: Center(
                               child: Text(

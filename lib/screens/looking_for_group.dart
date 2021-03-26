@@ -1,12 +1,15 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import '../functions.dart';
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+import '../functions.dart';
+
 class LookingForGroup extends StatefulWidget {
   static String routeName = "/looking_for_group";
+
   @override
   _LookingForGroupState createState() => _LookingForGroupState();
 }
@@ -61,6 +64,8 @@ class _LookingForGroupState extends State<LookingForGroup>
   void initState() {
     startTimer(_start);
     _animationController =
+
+        /// Here I changed the value to vsync
         AnimationController(duration: Duration(seconds: 100), vsync: this);
 
     final _curvedAnimation = CurvedAnimation(
