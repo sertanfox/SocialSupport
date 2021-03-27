@@ -1,13 +1,13 @@
-import 'package:examples/screens/service_phone_number.dart';
+import 'package:examples/components/validators.dart';
 import 'package:examples/screens/verify_screen.dart';
+import 'package:examples/services/service_phone_number.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../functions.dart';
 
-class PhoneNumber extends StatefulWidget {
+class PhoneNumber extends StatefulWidget with Validators{
   static String routeName = "/";
-
   PhoneNumber({Key key}) : super(key: key);
 
   @override
@@ -15,19 +15,21 @@ class PhoneNumber extends StatefulWidget {
 }
 
 class _PhoneNumberState extends State<PhoneNumber> {
-  String unValidNumber = "";
+   Validators valid = Validators();
   String phoneNumber = "";
+  String unValidNumber = "";
   String _verificationCode;
+
   final phoneNumberController = TextEditingController();
 
   void _wrongNumber(int errorCode) {
     setState(() {
       if (errorCode == 0)
-        unValidNumber = "Bu alan boş bırakılamaz.";
+        unValidNumber = valid.unValidNumberEmpty ;
       else if (errorCode == 1)
-        unValidNumber = "Telefon numaranızı eksik tuşladınız.";
+        unValidNumber = valid.unValidNumberMissing ;
       else
-        unValidNumber = "Bilinmeyen bir hata gerçekleşti.";
+        unValidNumber = valid.unValidNumberInvalid ;
     });
   }
 
@@ -97,7 +99,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                                 keyboardType: TextInputType.number,
                                 style: TextStyle(color: Colors.white),
                                 controller: phoneNumberController,
-                                onChanged: (blabla) {
+                                onChanged: (value) {
                                   phoneNumber = phoneNumberController.text;
                                 },
                                 inputFormatters: [
@@ -145,7 +147,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                                           builder: (context) => Verify_Screen(
                                                 phoneNum: phoneNumber,
                                               ))));
-
+                              print('+90$phoneNumber');
                               // MaterialPageRoute(
                               //     builder: (context) =>
                               //         Verify_Screen(phoneNum: phoneNumber));

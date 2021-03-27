@@ -2,31 +2,27 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:examples/components/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../functions.dart';
 
-class LookingForGroup extends StatefulWidget {
+class LookingForGroup extends StatefulWidget  with Validators {
   static String routeName = "/looking_for_group";
 
   @override
   _LookingForGroupState createState() => _LookingForGroupState();
 }
 
-String text11 = "Kaydınız Gerçekleşti !";
-String text12 =
-    "Sizin için uygun bir odanın olup olmadığını kontrol ediyoruz...";
-String text21 = "Henüz size uygun bir oda bulunmamakta :(";
-String text22 =
-    "Merak etmeyin ! En kısa zamanda oluşturup sizi bilgilendireceğiz :)";
-
-bool bool1 = true;
-bool bool2 = true;
-bool route = false;
-
 class _LookingForGroupState extends State<LookingForGroup>
     with SingleTickerProviderStateMixin {
+
+
+  Validators valid = Validators();
+  bool bool1 = true;
+  bool bool2 = true;
+  bool route = false;
   Timer _timer;
   int _start = 10;
 
@@ -64,8 +60,6 @@ class _LookingForGroupState extends State<LookingForGroup>
   void initState() {
     startTimer(_start);
     _animationController =
-
-        /// Here I changed the value to vsync
         AnimationController(duration: Duration(seconds: 100), vsync: this);
 
     final _curvedAnimation = CurvedAnimation(
@@ -110,7 +104,7 @@ class _LookingForGroupState extends State<LookingForGroup>
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: Text(
-                  bool1 ? text11 : text21,
+                  bool1 ? valid.text11 : valid.text21,
                   style: TextStyle(fontSize: 30),
                 ),
               ),
@@ -120,7 +114,7 @@ class _LookingForGroupState extends State<LookingForGroup>
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: Text(
-                  bool2 ? text12 : text22,
+                  bool2 ? valid.text12 : valid.text22,
                   style: TextStyle(
                     fontSize: 30,
                   ),

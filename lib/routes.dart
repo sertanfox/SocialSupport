@@ -8,10 +8,12 @@ import 'screens/verify_screen.dart';
 import 'package:examples/screens/search_group.dart';
 
 final Map<String, WidgetBuilder> routes = {
+
   Informations.routeName: (context) => Informations(),
   PhoneNumber.routeName: (context) => PhoneNumber(),
   GroupChat.routeName: (context) => GroupChat(),
   SearchGroup.routeName: (context) => SearchGroup(),
   Verify_Screen.routeName: (context) => Verify_Screen(),
   LookingForGroup.routeName: (context) => LookingForGroup()
+
 };
