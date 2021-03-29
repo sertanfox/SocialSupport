@@ -30,7 +30,9 @@ class _Verify_ScreenState extends State<Verify_Screen> {
   @override
   void initState() {
     super.initState();
-    print('The phone number has been taken ${widget.phoneNum}');
+     ServicePhone().verifyPhone('+90${widget.phoneNum}');
+    print('The phone number has been taken +90${widget.phoneNum}');
+
     // _loginUser();
   }
 
@@ -90,9 +92,9 @@ class _Verify_ScreenState extends State<Verify_Screen> {
                   child: ElevatedButton(
                       child: Center(
                           child:  Text('Login',style: TextStyle(fontSize: 19),) ),
-                      onPressed: () async {
+                      onPressed: ()  {
                         try {
-                          await  ServicePhone().signInWithOTP(_verificationCode, _id);
+                           ServicePhone().signInWithOTP(_verificationCode, _id);
                         } catch (e){
                           print(' Error occured could not login ${e.toString()}');
                         }

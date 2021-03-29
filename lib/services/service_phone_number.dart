@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 abstract class Service {
   Future<void> signIn(AuthCredential authCred);
   Future <void> signInWithOTP(smsCode, verId);
+  Future<void> verifyPhone(String phoneNo);
 }
 
 class ServicePhone extends Service {
@@ -11,33 +12,32 @@ class ServicePhone extends Service {
   bool codeSent;
   ServicePhone({@required this.verificationId});
 
-
+@override
  Future<void> signInWithOTP(smsCode, verId) async {
-    AuthCredential authCred = PhoneAuthProvider.getCredential(
+    AuthCredential authCred = PhoneAuthProvider.credential(
         verificationId: verId, smsCode: smsCode);
    await signIn(authCred);
   }
 
-
+  @override
   Future<void> signIn(AuthCredential authCred) async {
     await FirebaseAuth.instance.signInWithCredential(authCred);
   }
 
-
-  Future<void> verifyPhone(phoneNo) async {
-    final PhoneVerificationCompleted verified = (AuthCredential authResult) async {
-      await signIn(authResult);
+  @override
+  Future<void> verifyPhone(String phoneNo) async {
+  print('Phone number reached verifyphone $phoneNo');
+    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+       signIn(authResult);
     };
 
     final PhoneVerificationFailed verificationfailed =
-        (AuthException authException) {
+        (FirebaseAuthException authException) {
       print('${authException.message}');
     };
 
     final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
       this.verificationId = verId;
-        this.codeSent = true;
-
     };
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
@@ -46,7 +46,7 @@ class ServicePhone extends Service {
 
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNo,
-        timeout: const Duration(seconds: 8),
+        timeout: const Duration(seconds: 120),
         verificationCompleted: verified,
         verificationFailed: verificationfailed,
         codeSent: smsSent,

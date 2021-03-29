@@ -138,15 +138,13 @@ class _PhoneNumberState extends State<PhoneNumber> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            onPressed: () async {
-                              await ServicePhone()
-                                  .verifyPhone('+90$phoneNumber')
-                                  .then((value) => Navigator.push(
+                            onPressed: ()  {
+                              Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Verify_Screen(
                                                 phoneNum: phoneNumber,
-                                              ))));
+                                              )));
                               print('+90$phoneNumber');
                               // MaterialPageRoute(
                               //     builder: (context) =>
