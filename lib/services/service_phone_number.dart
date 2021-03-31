@@ -46,7 +46,7 @@ class ServicePhone extends Service {
 
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNo,
-        timeout: const Duration(seconds: 120),
+        timeout: const Duration(seconds: 5),
         verificationCompleted: verified,
         verificationFailed: verificationfailed,
         codeSent: smsSent,

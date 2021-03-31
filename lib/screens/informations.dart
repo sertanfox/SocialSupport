@@ -30,10 +30,8 @@ class _InformationsState extends State<Informations> with Validators {
   Validators valid = Validators();
   bool _isVisible = false;
 
-
   List<DropdownMenuItem<String>> _dropdownMenuItems;
   String _selectedCancer;
-
 
   List<DropdownMenuItem<String>> _dropdownCityItems;
   String _selectedCity;
