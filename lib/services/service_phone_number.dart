@@ -26,6 +26,7 @@ class ServicePhone extends Service {
 
   @override
   Future<void> verifyPhone(String phoneNo) async {
+
   print('Phone number reached verifyphone $phoneNo');
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
        signIn(authResult);
