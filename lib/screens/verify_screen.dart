@@ -94,7 +94,7 @@ class _Verify_ScreenState extends State<Verify_Screen> {
                           child:  Text('Login',style: TextStyle(fontSize: 19),) ),
                       onPressed: ()  {
                         try {
-                           ServicePhone().signInWithOTP(_verificationCode, _id);
+                           ServicePhone(verificationId: _id).signInWithOTP(_verificationCode, _id);
                         } catch (e){
                           print(' Error occured could not login ${e.toString()}');
                         }
