@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:otp_screen/otp_screen.dart';
 
 class Verify_Screen extends StatefulWidget {
-  String phoneNum ;
+  String phoneNum;
+
   Verify_Screen({Key key, this.phoneNum}) : super(key: key);
   static String routeName = "/verify_screen";
 
@@ -30,7 +31,9 @@ class _Verify_ScreenState extends State<Verify_Screen> {
   @override
   void initState() {
     super.initState();
-   _id = ServicePhone().verifyPhone('+90${widget.phoneNum}');
+     _id = ServicePhone().verifyPhone('+90${widget.phoneNum}').then((value) {
+       print(_id);
+     });
     print('The phone number has been taken +90${widget.phoneNum}');
 
     // _loginUser();
@@ -39,7 +42,7 @@ class _Verify_ScreenState extends State<Verify_Screen> {
 
   @override
   Widget build(BuildContext context) {
-   // phoneNumber = ModalRoute.of(context).settings.arguments;
+    // phoneNumber = ModalRoute.of(context).settings.arguments;
     return _buildBodyContent(context);
 
     //   Scaffold(
@@ -62,47 +65,46 @@ class _Verify_ScreenState extends State<Verify_Screen> {
 
   Widget _buildBodyContent(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Verify Screen'),
-        elevation:0,
-      centerTitle: true,
-        backgroundColor: Colors.white,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-                padding: EdgeInsets.only( left: 25.0, right: 25.0),
-                child: TextFormField(
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(hintText: 'Enter OTP'),
-                  onChanged: (val) {
-                    setState(() {
-                      this._verificationCode = val;
-                    });
-                  },
-                )),
-            Padding(
-                padding: EdgeInsets.only(left: 25.0, right: 25.0),
-                child: Container(
-                  height: 45,
-
-                  child: ElevatedButton(
-                      child: Center(
-                          child:  Text('Login',style: TextStyle(fontSize: 19),) ),
-                      onPressed: ()  async {
-                          await ServicePhone().signInWithOTP(_verificationCode, _id );
-
-
-
-                      }),
-                ))
-
-          ],
+        appBar: AppBar(
+          title: Text('Verify Screen'),
+          elevation: 0,
+          centerTitle: true,
+          backgroundColor: Colors.white,
         ),
-      )
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(hintText: 'Enter OTP'),
+                    onChanged: (val) {
+                      setState(() {
+                        this._verificationCode = val;
+                      });
+                    },
+                  )),
+              Padding(
+                  padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                  child: Container(
+                    height: 45,
+
+                    child: ElevatedButton(
+                        child: Center(
+                            child: Text(
+                              'Login', style: TextStyle(fontSize: 19),)),
+                        onPressed: () async {
+                          await ServicePhone().signInWithOTP(
+                              _verificationCode, _id);
+                        }),
+                  ))
+
+            ],
+          ),
+        )
     );
   }
 }
