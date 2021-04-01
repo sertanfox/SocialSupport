@@ -54,6 +54,7 @@ class ServicePhone extends Service {
         codeSent: smsSent,
         codeAutoRetrievalTimeout: autoTimeout);
 
+
   return this.verificationId;
   }
 
