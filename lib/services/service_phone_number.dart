@@ -5,12 +5,13 @@ abstract class Service {
   Future<void> signIn(AuthCredential authCred);
   Future <void> signInWithOTP(smsCode, verId);
   Future<void> verifyPhone(String phoneNo);
+
 }
 
 class ServicePhone extends Service {
   String verificationId;
   bool codeSent;
-  ServicePhone({@required this.verificationId});
+  ServicePhone({this.verificationId});
 
 @override
  Future<void> signInWithOTP(smsCode, verId) async {
