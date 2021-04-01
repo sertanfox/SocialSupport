@@ -19,11 +19,51 @@ class _Verify_ScreenState extends State<Verify_Screen> {
 
   ///VALIDATE OTP FUTURE VOID
   //TODO: ADD FUNCTION VALIDATE OTP
-
-
+  String verificationId;
   String _verificationCode;
-  Future<String> _id;
+  bool codeSent;
 
+
+  Future<void> signInWithOTP(smsCode,verId) async {
+    PhoneAuthCredential authCred = PhoneAuthProvider.credential(
+        verificationId: verId, smsCode: smsCode );
+    await signIn(authCred);
+  }
+
+
+  Future<void> signIn(AuthCredential authCred) async {
+    await FirebaseAuth.instance.signInWithCredential(authCred);
+  }
+
+  Future<String> verifyPhone(String phoneNo) async {
+
+    print('Phone number reached verifyphone $phoneNo');
+    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+      return signIn(authResult);
+    };
+
+    final PhoneVerificationFailed verificationfailed =
+        (FirebaseAuthException authException) {
+      print('${authException.message}');
+    };
+
+    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+      this.verificationId = verId;
+    };
+
+    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+      this.verificationId = verId;
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNo,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verified,
+        verificationFailed: verificationfailed,
+        codeSent: smsSent,
+        codeAutoRetrievalTimeout: autoTimeout);
+
+  }
 
   ///HERE IS THE LOGIN USER
   //TODO: ADD LOGIN USER
@@ -31,7 +71,7 @@ class _Verify_ScreenState extends State<Verify_Screen> {
   @override
   void initState() {
     super.initState();
-     ServicePhone().verifyPhone('+90${widget.phoneNum}');
+     verifyPhone('+90${widget.phoneNum}');
 
     print('The phone number has been taken +90${widget.phoneNum}');
 
@@ -96,8 +136,8 @@ class _Verify_ScreenState extends State<Verify_Screen> {
                             child: Text(
                               'Login', style: TextStyle(fontSize: 19),)),
                         onPressed: () async {
-                          await ServicePhone().signInWithOTP(
-                              _verificationCode);
+                          await signInWithOTP(
+                              _verificationCode,verificationId);
                         }),
                   ))
 
