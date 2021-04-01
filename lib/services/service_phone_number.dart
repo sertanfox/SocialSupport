@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
 
 abstract class Service {
   Future<void> signIn(AuthCredential authCred);
@@ -15,7 +15,7 @@ class ServicePhone extends Service {
 
 @override
  Future<void> signInWithOTP(smsCode, verId) async {
-    AuthCredential authCred = PhoneAuthProvider.credential(
+    PhoneAuthCredential authCred = PhoneAuthProvider.credential(
         verificationId: verId, smsCode: smsCode);
    await signIn(authCred);
   }
@@ -30,7 +30,7 @@ class ServicePhone extends Service {
 
   print('Phone number reached verifyphone $phoneNo');
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-       signIn(authResult);
+      return signIn(authResult);
     };
 
     final PhoneVerificationFailed verificationfailed =
