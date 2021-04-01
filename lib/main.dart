@@ -9,7 +9,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
-
 }
 
 class MyApp extends StatelessWidget with Validators {
@@ -17,16 +16,15 @@ class MyApp extends StatelessWidget with Validators {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Colors.blue[400],
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        initialRoute: PhoneNumber.routeName,
-        routes: routes,
-
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue[400],
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      initialRoute: PhoneNumber.routeName,
+      routes: routes,
     );
   }
 }
