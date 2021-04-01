@@ -31,9 +31,8 @@ class _Verify_ScreenState extends State<Verify_Screen> {
   @override
   void initState() {
     super.initState();
-     _id = ServicePhone().verifyPhone('+90${widget.phoneNum}').then((value) {
-       print(_id);
-     });
+     ServicePhone().verifyPhone('+90${widget.phoneNum}');
+
     print('The phone number has been taken +90${widget.phoneNum}');
 
     // _loginUser();
@@ -98,7 +97,7 @@ class _Verify_ScreenState extends State<Verify_Screen> {
                               'Login', style: TextStyle(fontSize: 19),)),
                         onPressed: () async {
                           await ServicePhone().signInWithOTP(
-                              _verificationCode, _id);
+                              _verificationCode);
                         }),
                   ))
 

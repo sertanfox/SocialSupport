@@ -3,9 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class Service {
   Future<void> signIn(AuthCredential authCred);
-  Future <void> signInWithOTP(smsCode, verId);
-  Future<String> verifyPhone(String phoneNo);
-
+  Future <void> signInWithOTP(smsCode);
+  Future<void> verifyPhone(String phoneNo);
 }
 
 class ServicePhone extends Service {
@@ -14,9 +13,9 @@ class ServicePhone extends Service {
   ServicePhone({this.verificationId});
 
 @override
- Future<void> signInWithOTP(smsCode, verId) async {
+ Future<void> signInWithOTP(smsCode) async {
     PhoneAuthCredential authCred = PhoneAuthProvider.credential(
-        verificationId: verId, smsCode: smsCode );
+        verificationId: verificationId, smsCode: smsCode );
    await signIn(authCred);
   }
 
@@ -26,7 +25,7 @@ class ServicePhone extends Service {
   }
 
   @override
-  Future<String> verifyPhone(String phoneNo) async {
+  Future<void> verifyPhone(String phoneNo) async {
 
   print('Phone number reached verifyphone $phoneNo');
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
@@ -55,7 +54,7 @@ class ServicePhone extends Service {
         codeAutoRetrievalTimeout: autoTimeout);
 
 
-  return this.verificationId;
+  // return this.verificationId;
   }
 
 }
