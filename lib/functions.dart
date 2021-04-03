@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// <LOGİCAL FUNCTİONS>
+///Logical Function Check if number has 10 digits-----///
 int isPhoneNumberValid(String number) {
   print(number);
   int errorCode = 0;
@@ -13,9 +13,8 @@ int isPhoneNumberValid(String number) {
   return errorCode;
 }
 
-// </LOGİCAL FUNCTİONS>
 
-//<WİDGET FUNCTİONS>
+/// Widget for App logo--------------------------------///
 class AppLogo extends StatelessWidget {
   const AppLogo({Key key}) : super(key: key);
 
@@ -27,6 +26,8 @@ class AppLogo extends StatelessWidget {
   }
 }
 
+
+/// Widget For AppText------------------------------------///
 class AppText extends StatelessWidget {
   const AppText({Key key}) : super(key: key);
 
@@ -48,4 +49,4 @@ class AppText extends StatelessWidget {
     );
   }
 }
-// </WİDGET FUNCTİONS>
+

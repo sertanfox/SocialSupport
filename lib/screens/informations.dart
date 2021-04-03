@@ -39,7 +39,7 @@ class _InformationsState extends State<Informations> with Validators {
 
   @override
   void initState() {
-
+    super.initState();
     _dropdownMenuItems = buildDropdownMenuItems(valid.cancerTypes);
     _dropdownCityItems = buildDropdownCityItems(valid.cities);
   }

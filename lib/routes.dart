@@ -9,7 +9,6 @@ import 'package:examples/screens/search_group.dart';
 
 final Map<String, WidgetBuilder> routes = {
 
-
   Informations.routeName: (context) => Informations(),
   PhoneNumber.routeName: (context) => PhoneNumber(),
   GroupChat.routeName: (context) => GroupChat(),

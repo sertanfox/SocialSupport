@@ -1,12 +1,11 @@
 import 'package:examples/components/validators.dart';
 import 'package:examples/screens/verify_screen.dart';
-import 'package:examples/services/service_phone_number.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../functions.dart';
 
-class PhoneNumber extends StatefulWidget with Validators{
+class PhoneNumber extends StatefulWidget with Validators {
   static String routeName = "/";
   PhoneNumber({Key key}) : super(key: key);
 
@@ -15,28 +14,29 @@ class PhoneNumber extends StatefulWidget with Validators{
 }
 
 class _PhoneNumberState extends State<PhoneNumber> {
-   Validators valid = Validators();
+
+
+  ///Variables_______________________________________
+  final phoneNumberController = TextEditingController();
+  Validators valid = Validators();
   String phoneNumber = "";
   String unValidNumber = "";
-  String _verificationCode;
 
-  final phoneNumberController = TextEditingController();
-
+  /// This function checks if the number has 10 digits__
   void _wrongNumber(int errorCode) {
     setState(() {
       if (errorCode == 0)
-        unValidNumber = valid.unValidNumberEmpty ;
+        unValidNumber = valid.unValidNumberEmpty;
       else if (errorCode == 1)
-        unValidNumber = valid.unValidNumberMissing ;
+        unValidNumber = valid.unValidNumberMissing;
       else
-        unValidNumber = valid.unValidNumberInvalid ;
+        unValidNumber = valid.unValidNumberInvalid;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //resizeToAvoidBottomPadding: false,
         backgroundColor: Colors.blue[400],
         body: SafeArea(
           child: SingleChildScrollView(
@@ -138,29 +138,20 @@ class _PhoneNumberState extends State<PhoneNumber> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            onPressed: ()  {
+                            onPressed: () {
                               Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Verify_Screen(
-                                                phoneNum: phoneNumber,
-                                              )));
-                              print('+90$phoneNumber');
-                              // MaterialPageRoute(
-                              //     builder: (context) =>
-                              //         Verify_Screen(phoneNum: phoneNumber));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Verify_Screen(
+                                          phoneNum: phoneNumber)));
 
-                              // Navigator.of(context).pushNamed(
-                              //     Verify_Screen.routeName,
-                              //     arguments: phoneNumber));
-
-                              //TODO: Verify if this part works
-                              // int errorCode = isPhoneNumberValid(phoneNumber);
-                              // if (errorCode == 101) {
-                              //   print("Sms doğrulamaya gidiyoruz...");
-
-                              // } else
-                              // _wrongNumber(errorCode);
+                              //   //TODO: Verify if this part works
+                              //   int errorCode = isPhoneNumberValid(phoneNumber);
+                              //   if (errorCode == 101) {
+                              //     print("Sms doğrulamaya gidiyoruz...");
+                              //
+                              //   } else
+                              //   _wrongNumber(errorCode);
                             },
                             child: Center(
                               child: Text(

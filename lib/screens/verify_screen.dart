@@ -1,8 +1,6 @@
 import 'package:examples/screens/informations.dart';
-import 'package:examples/services/service_phone_number.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:otp_screen/otp_screen.dart';
 
 class Verify_Screen extends StatefulWidget {
   String phoneNum;
@@ -15,28 +13,31 @@ class Verify_Screen extends StatefulWidget {
 }
 
 class _Verify_ScreenState extends State<Verify_Screen> {
-
-
-  ///VALIDATE OTP FUTURE VOID
-  //TODO: ADD FUNCTION VALIDATE OTP
   String verificationId;
   String _verificationCode;
   bool codeSent;
 
+  @override
+  void initState() {
+    super.initState();
+    verifyPhone('+90${widget.phoneNum}');
+    print('The phone number has been taken +90${widget.phoneNum}');
+  }
 
-  Future<void> signInWithOTP(smsCode,verId) async {
-    PhoneAuthCredential authCred = PhoneAuthProvider.credential(
-        verificationId: verId, smsCode: smsCode );
+  ///Function to Sign in with OTP. Once the Sms Code is taken
+  Future<bool> signInWithOTP(smsCode, verId) async {
+    PhoneAuthCredential authCred =
+        PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
     await signIn(authCred);
   }
 
-
+  /// Sign In to Firebase with AuthCredential
   Future<void> signIn(AuthCredential authCred) async {
     await FirebaseAuth.instance.signInWithCredential(authCred);
   }
 
-  Future<String> verifyPhone(String phoneNo) async {
-
+  /// This function verifies the phone then set the sms code
+  Future<void> verifyPhone(String phoneNo) async {
     print('Phone number reached verifyphone $phoneNo');
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       return signIn(authResult);
@@ -54,7 +55,6 @@ class _Verify_ScreenState extends State<Verify_Screen> {
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
       this.verificationId = verId;
     };
-
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNo,
         timeout: const Duration(seconds: 5),
@@ -62,45 +62,14 @@ class _Verify_ScreenState extends State<Verify_Screen> {
         verificationFailed: verificationfailed,
         codeSent: smsSent,
         codeAutoRetrievalTimeout: autoTimeout);
-
   }
-
-  ///HERE IS THE LOGIN USER
-  //TODO: ADD LOGIN USER
-
-  @override
-  void initState() {
-    super.initState();
-     verifyPhone('+90${widget.phoneNum}');
-
-    print('The phone number has been taken +90${widget.phoneNum}');
-
-    // _loginUser();
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    // phoneNumber = ModalRoute.of(context).settings.arguments;
     return _buildBodyContent(context);
-
-    //   Scaffold(
-    //   // debugShowCheckedModeBanner: false,
-    //   body: Center(
-    //     child: OtpScreen.withGradientBackground(
-    //       topColor: Colors.blue[400],
-    //       bottomColor: Colors.blue[300],
-    //       otpLength: 6,
-    //       validateOtp: validateOtp,
-    //       routeCallback: moveToNextScreen,
-    //       themeColor: Colors.white,
-    //       titleColor: Colors.white,
-    //       title: "Telefon Numarası Doğrulama",
-    //       subTitle: "'e gönderilen doğrulama kodunu giriniz:",
-    //     ),
-    //   ),
-    // );
   }
+
+  ///=== === === === === === === === === === === === === === === === ===
 
   Widget _buildBodyContent(BuildContext context) {
     return Scaffold(
@@ -130,21 +99,27 @@ class _Verify_ScreenState extends State<Verify_Screen> {
                   padding: EdgeInsets.only(left: 25.0, right: 25.0),
                   child: Container(
                     height: 45,
-
                     child: ElevatedButton(
                         child: Center(
                             child: Text(
-                              'Login', style: TextStyle(fontSize: 19),)),
+                          'Login',
+                          style: TextStyle(fontSize: 19),
+                        )),
                         onPressed: () async {
-                          await signInWithOTP(
-                              _verificationCode,verificationId);
+                          bool isSignedIn = await signInWithOTP(
+                              _verificationCode, verificationId);
+                          if (isSignedIn != null && isSignedIn != false) {
+                            Navigator.pushReplacementNamed(
+                                context, Informations.routeName);
+                          } else {
+                            return Center(
+                                child: Text('Error while Login',
+                                    style: TextStyle(fontSize: 17)));
+                          }
                         }),
                   ))
-
             ],
           ),
-        )
-    );
+        ));
   }
 }
-

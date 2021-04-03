@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
-
 import 'package:examples/components/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import '../functions.dart';
 
 class LookingForGroup extends StatefulWidget  with Validators {
@@ -58,6 +56,7 @@ class _LookingForGroupState extends State<LookingForGroup>
 
   @override
   void initState() {
+    super.initState();
     startTimer(_start);
     _animationController =
         AnimationController(duration: Duration(seconds: 100), vsync: this);
